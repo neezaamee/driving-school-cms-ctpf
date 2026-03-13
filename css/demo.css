@@ -1,0 +1,125 @@
+/* Navigation styling */
+.nav {
+	position:relative;
+	display:inline-block;
+	font-size:14px;
+	font-weight:900;
+	margin-left:20px;
+}
+.nav-list {
+	list-style:none;
+}
+.nav-item {
+	float:left;
+	margin-top: 1px;
+	*display:inline;
+	zoom:1;
+}
+.nav-item a {
+	display:block;
+	padding:5px 10px;
+	color:#FFF;
+text-decoration:none;
+	}
+.nav-item:first-child a {
+	border-radius:0px 0 0 0px;
+}
+.nav-item:last-child a {
+	border-radius:0 0px 0px 0;
+}
+.nav-item a:hover {
+	background:#148E76;
+}
+/* Mobile Navigation */
+.nav-mobile {
+	display:none; /* Hide from browsers that don't support media queries */
+	cursor:pointer;
+	position:absolute;
+	top:0;
+	right:0;
+	background:#34495E url(../images/nav.svg) no-repeat center center;
+	height:40px;
+	width:40px;
+	border-radius:5px;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+}
+.chalanprint {
+width:500px;
+height:500px;
+border:2px dashed red;
+    font: 18px Georgia, "Times New Roman", Times, serif;
+}
+.dat {
+float:left;
+margin-left:20px;
+}
+.buttong {
+    background: #16A085;
+    border: none;
+    padding: 5px 25px 5px 25px;
+    color: #FFF;
+	text-decoration:none;
+    border-radius: 3px;
+	margin-top:15px;
+    cursor: pointer;
+}	
+/*------------------------------------*\
+    Media Queries
+\*------------------------------------*/
+@media print {
+   .chalanprint {
+width:500px;
+height:500px;
+border:2px dashed red;
+padding:10px;
+    font: 18px Georgia, "Times New Roman", Times, serif;
+}
+}
+
+
+
+
+
+@media only screen and (min-width: 220px) and (max-width: 768px) {
+	.nav-mobile {
+		display:block;
+	}
+	.nav {
+		position:relative;
+		width:89%;
+		padding:40px 0 0;
+	}
+	.nav-list {
+		display:none;
+	}
+	.nav-item {
+		width:100%;
+		margin:0;
+		float:none;
+z-index:999;
+		}
+	.nav-item a {
+		background:#34495E;
+		padding:10px;
+	}
+	.nav-item:first-child a {
+		border-radius:5px 0 0;
+	}
+	.nav-item:last-child a {
+		border-radius:0 0 5px 5px;
+	}
+	.nav-active {
+		display:block;
+	}
+	.nav-mobile-open {
+		border-radius:5px 5px 0 0;
+		-webkit-border-radius:5px 5px 0 0;
+		-moz-border-radius:5px 5px 0 0;
+	}
+	.content {
+width: 100%;
+	
+	padding:0;
+}
+}
