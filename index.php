@@ -184,7 +184,7 @@ for ($i = 6; $i >= 0; $i--) {
                         while ($rowRec = mysqli_fetch_assoc($resRecent)) {
                           $statusBadge = $rowRec['status'] == 0 ? '<span class="badge badge-primary">Active</span>' : '<span class="badge badge-success">Passed</span>';
                           echo "<tr>
-                                  <td><a href='duplicateRegistrationForm.php?registration=" . e($rowRec['registration']) . "'>" . e($rowRec['registration']) . "</a></td>
+                                  <td>" . e($rowRec['registration']) . "</td>
                                   <td>" . e(strtoupper($rowRec['fullname'])) . "</td>
                                   <td>" . e($rowRec['coursename']) . "</td>
                                   <td>" . $statusBadge . "</td>
