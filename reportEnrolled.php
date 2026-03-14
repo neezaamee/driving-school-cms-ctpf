@@ -153,9 +153,9 @@ if (isDEO()){
                              $School = schoolByiD($schoolID);
                              $schoolName = $School->location;
 
-                             $admissionDate = $GetStockRow['admissiondate'];
-                             $startDate = $GetStockRow['startdate'];
-                             $endDate = $GetStockRow['enddate'];
+                              $admissionDate = $GetStockRow['admission_date'] ?? $GetStockRow['admissiondate'] ?? 'N/A';
+                              $startDate = $GetStockRow['startdate'] ?? 'N/A';
+                              $endDate = $GetStockRow['enddate'] ?? 'N/A';
 
                              //function candidateByID defined in Functions.php
                             $Student = studentByID($studentID);
