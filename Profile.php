@@ -88,16 +88,17 @@ if(isset($_SESSION['loginUserID']))
 ?>
                                 <!-- form start -->
                                 <form role="form" method="post" action="updateProfile.php">
+                                    <input type="hidden" name="csrf" value="<?php echo generate_csrf_token(); ?>">
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="InputEmail">User Name</label>
-                                            <input type="hidden" class="form-control" id="InputUserID" name="userid" value="<?php echo $userID; ?>">
-                                            <input type="hidden" class="form-control" id="InputStaffID" name="staffid" value="<?php echo $staffID; ?>">
-                                            <input type="text" class="form-control" id="InputEmail" placeholder="Enter User Name" name="email" value="<?php echo $Username; ?>" readonly>
+                                            <input type="hidden" class="form-control" id="InputUserID" name="userid" value="<?php echo e($userID); ?>">
+                                            <input type="hidden" class="form-control" id="InputStaffID" name="staffid" value="<?php echo e($staffID); ?>">
+                                            <input type="text" class="form-control" id="InputEmail" placeholder="Enter User Name" name="email" value="<?php echo e($Username); ?>" readonly>
                                         </div>
                                         <div class="form-group">
                                             <label for="InputFullName">First Name</label>
-                                            <input type="text" class="form-control" id="InputFullName" placeholder="Enter First Name" name="firstname" value="<?php echo $userFirstname; ?>">
+                                            <input type="text" class="form-control" id="InputFullName" placeholder="Enter First Name" name="firstname" value="<?php echo e($userFirstname); ?>">
                                         </div>
                                         
                                         <div class="form-group">

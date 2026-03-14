@@ -237,26 +237,26 @@ if (!isAdmin()){
                                                                 }
                                                                 ?>
                                                                 <td>
-                                                                    <?php echo $Registration; ?>
+                                                                    <?php echo e($Registration); ?>
                                                                 </td>
-                                                                <td><?php echo $admissionDate; ?></td>
+                                                                <td><?php echo e($admissionDate); ?></td>
                                                                 <td>
-                                                                    <?php echo $Student->fullname;  ?>
-                                                                </td>
-                                                                <td>
-                                                                    <?php echo genderByID($Student->gender)->name;  ?>
+                                                                    <?php echo e($Student->fullname);  ?>
                                                                 </td>
                                                                 <td>
-                                                                    <?php echo $Student->fathername; ?>
+                                                                    <?php echo e(genderByID($Student->gender)->name);  ?>
                                                                 </td>
                                                                 <td>
-                                                                    <?php echo $Student->dob; ?>
+                                                                    <?php echo e($Student->fathername); ?>
                                                                 </td>
                                                                 <td>
-                                                                    <?php echo $Student->cnic; ?>
+                                                                    <?php echo e($Student->dob); ?>
                                                                 </td>
                                                                 <td>
-                                                                    <?php echo $Student->address; ?>
+                                                                    <?php echo e($Student->cnic); ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo e($Student->address); ?>
                                                                 </td>
                                                                 <td>
                                                                     <?php echo "0".$Student->phone; ?>
@@ -278,10 +278,10 @@ if (!isAdmin()){
                                                                 </td>
                                                                 
                                                                 <td>
-                                                                <img width="100px" height="100px" src="<?php echo 'StudentImages/'.studentByID($studentID)->cnic.'.jpeg'?>" alt="StudentImg">
+                                                                <img width="100px" height="100px" src="<?php echo 'StudentImages/'.studentByID($studentID)->cnic.'.JPG'?>" alt="StudentImg">
                                                                 </td>
                                                                 <td>
-                                                                    <button class="btn btn-outline-danger btn-sm" data-href="deleteStudent.php?studentID=<?php echo $studentID; ?>" data-toggle="modal" data-target="#confirm-delete"> Delete</button>
+                                                                    <button class="btn btn-outline-danger btn-sm" data-href="deleteStudent.php?admissionID=<?php echo $studentID; ?>&csrf=<?php echo generate_csrf_token(); ?>" data-toggle="modal" data-target="#confirm-delete"> Delete</button>
                                                                 </td>
 
 

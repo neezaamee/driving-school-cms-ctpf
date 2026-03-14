@@ -169,20 +169,20 @@ if (isDEO()){
                                                                 <td>
                                                                     <?php echo $Serial; ?>
                                                                 </td>
-                                                                <td><?php echo $schoolName; ?></td>
-                                                                <td><?php echo $fullName; ?></td>
+                                                                <td><?php echo e($schoolName); ?></td>
+                                                                <td><?php echo e($fullName); ?></td>
                                                                 <td>
-                                                                    <?php echo $userName; ?>
+                                                                    <?php echo e($userName); ?>
                                                                 </td>
 
                                                                 <td>
-                                                                    <?php echo $Password; ?>
+                                                                    <?php echo e($Password); ?>
                                                                 </td>
                                                                 <td>
-                                                                    <?php echo strtoupper($userType); ?>
+                                                                    <?php echo e(strtoupper($userType)); ?>
                                                                 </td>
                                                                 <td>
-                                                                    <?php echo $Date; ?>
+                                                                    <?php echo e($Date); ?>
                                                                 </td>
                                                                 <td>
                                                                     <?php
@@ -200,7 +200,7 @@ if (isDEO()){
                                                                 </td>
                                                                 <td> <a class="btn btn-block btn-outline-primary" href="editUser.php?userID=<?php echo $userID; ?>"> Edit</a> </td>
                                                                 <td>
-                                                                    <button class="btn btn-block btn-outline-danger" data-href="deleteUser.php?userID=<?php echo $userID; ?>" data-toggle="modal" data-target="#confirm-delete"> Delete</button>
+                                                                    <button class="btn btn-block btn-outline-danger" data-href="deleteUser.php?userID=<?php echo $userID; ?>&csrf=<?php echo generate_csrf_token(); ?>" data-toggle="modal" data-target="#confirm-delete"> Delete</button>
                                                                 </td>
                                                             </tr>
                                                             <?php

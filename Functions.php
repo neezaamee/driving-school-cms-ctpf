@@ -4,6 +4,53 @@ require_once('sessionSet.php');
 
 date_default_timezone_set("Asia/Karachi");
 
+// --- Security Security Helpers ---
+
+/**
+ * Escapes HTML characters for safe output (XSS Prevention)
+ * @param string|null $string The input string
+ * @return string The escaped string
+ */
+function e($string) {
+    if (is_null($string)) return '';
+    return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+}
+
+/**
+ * Generates and stores a CSRF token in the session
+ * @return string The generated CSRF token
+ */
+function generate_csrf_token() {
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+/**
+ * Verifies a submitted CSRF token against the session token
+ * @param string|null $submitted_token The token from the form/request
+ * @return bool True if valid, false otherwise
+ */
+function verify_csrf_token($submitted_token) {
+    if (empty($_SESSION['csrf_token']) || empty($submitted_token)) {
+        return false;
+    }
+    return hash_equals($_SESSION['csrf_token'], $submitted_token);
+}
+
+/**
+ * Logs important administrative actions to the database.
+ * @param int $user_id The ID of the user performing the action
+ * @param string $action The action verb (e.g., 'CREATE', 'UPDATE', 'DELETE')
+ * @param string $target_table The table being affected
+ * @param int|string $target_id The ID of the record being affected
+ * @param array|string $details Additional context or JSON encoded changes
+ */
+function log_audit_event($user_id, $action, $target_table, $target_id, $details = null) {
+    return \App\Models\AuditLog::log($user_id, $action, $target_table, $target_id, $details);
+}
+
 function userLog($userID, $sessionID, $action)
 {
     global $con;
@@ -120,15 +167,7 @@ function feeByVoucherID($voucherID)
 
 function studentByID($studentID)
 {
-  global $con;
-  $sql = "SELECT * FROM students WHERE id = ?";
-  $stmt = mysqli_prepare($con, $sql);
-  mysqli_stmt_bind_param($stmt, "i", $studentID);
-  mysqli_stmt_execute($stmt);
-  $Result = mysqli_stmt_get_result($stmt);
-  $student = mysqli_fetch_object($Result);
-  mysqli_stmt_close($stmt);
-  return $student;
+  return \App\Models\Student::find($studentID);
 }
 function studentCategoryByID($studentCategoryID)
 {
@@ -1220,4 +1259,23 @@ function schoolCounter($schoolID = null, $Year = null)
 
   mysqli_stmt_close($stmt);
   return $totalAdmissions;
+}
+
+function getBanksForUser() {
+    global $con;
+    if (isAdmin()) {
+        $query = "SELECT * FROM banks";
+        return mysqli_query($con, $query);
+    } else {
+        $userID = $_SESSION['loginUserID'];
+        $User = userByID($userID);
+        $schoolID = $User->idschool;
+        $School = schoolByID($schoolID);
+        $cityID = $School->idcity;
+        $query = "SELECT * FROM banks WHERE idcity=(?)";
+        $stmt = mysqli_prepare($con, $query);
+        mysqli_stmt_bind_param($stmt, "i", $cityID);
+        mysqli_stmt_execute($stmt);
+        return mysqli_stmt_get_result($stmt);
+    }
 }

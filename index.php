@@ -184,9 +184,9 @@ for ($i = 6; $i >= 0; $i--) {
                         while ($rowRec = mysqli_fetch_assoc($resRecent)) {
                           $statusBadge = $rowRec['status'] == 0 ? '<span class="badge badge-primary">Active</span>' : '<span class="badge badge-success">Passed</span>';
                           echo "<tr>
-                                  <td><a href='duplicateRegistrationForm.php?registration=" . $rowRec['registration'] . "'>" . $rowRec['registration'] . "</a></td>
-                                  <td>" . strtoupper($rowRec['fullname']) . "</td>
-                                  <td>" . $rowRec['coursename'] . "</td>
+                                  <td><a href='duplicateRegistrationForm.php?registration=" . e($rowRec['registration']) . "'>" . e($rowRec['registration']) . "</a></td>
+                                  <td>" . e(strtoupper($rowRec['fullname'])) . "</td>
+                                  <td>" . e($rowRec['coursename']) . "</td>
                                   <td>" . $statusBadge . "</td>
                                   <td>" . date('d-m-Y', strtotime($rowRec['admission_date'])) . "</td>
                                 </tr>";
@@ -238,7 +238,7 @@ for ($i = 6; $i >= 0; $i--) {
                     <?php
                     $QR = mysqli_query($con, "SELECT * FROM studentcategories");
                     while ($Row = mysqli_fetch_assoc($QR)) {
-                      echo "<tr><td>" . $Row['name'] . "</td><td class='text-right'>" . number_format(totalIncome($con, $Row['id']) ?? 0) . "</td></tr>";
+                      echo "<tr><td>" . e($Row['name']) . "</td><td class='text-right'>" . number_format(totalIncome($con, $Row['id']) ?? 0) . "</td></tr>";
                     }
                     ?>
                     <tr><td>Current Month</td><td class="text-right"><?= number_format(totalIncome($con, null, date('m'), date('Y')) ?? 0); ?></td></tr>
@@ -261,7 +261,7 @@ for ($i = 6; $i >= 0; $i--) {
                     <?php
                     $QR = mysqli_query($con, "SELECT * FROM expensetypes WHERE status = 1");
                     while ($Row = mysqli_fetch_assoc($QR)) {
-                      echo "<tr><td>" . $Row['type'] . "</td><td class='text-right'>" . number_format(totalExpenses($con, $Row['id']) ?? 0) . "</td></tr>";
+                      echo "<tr><td>" . e($Row['type']) . "</td><td class='text-right'>" . number_format(totalExpenses($con, $Row['id']) ?? 0) . "</td></tr>";
                     }
                     ?>
                     <tr><td>Current Month</td><td class="text-right"><?= number_format(totalExpenses($con, null, date('m'), date('Y')) ?? 0); ?></td></tr>

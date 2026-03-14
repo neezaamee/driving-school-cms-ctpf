@@ -206,7 +206,7 @@ function isTreeActive($pages) {
         </li>
 
         <?php if (!isDEO()) { ?>
-        <?php $admin = ['Staff.php', 'viewUsers.php', 'addStaff.php']; ?>
+        <?php $admin = ['Staff.php', 'viewUsers.php', 'addStaff.php', 'auditLogs.php']; ?>
         <li class="nav-item has-treeview <?= isTreeOpen($admin); ?>">
           <a href="#" class="nav-link <?= isTreeActive($admin); ?>">
             <i class="nav-icon fas fa-user-shield text-dark"></i>
@@ -228,6 +228,13 @@ function isTreeActive($pages) {
                 <i class="fas fa-user-plus nav-icon"></i><p>Add New Staff</p>
               </a>
             </li>
+            <?php if (isAdmin()) { ?>
+            <li class="nav-item">
+              <a href="auditLogs.php" class="nav-link <?= isPageActive('auditLogs.php'); ?>">
+                <i class="fas fa-clipboard-check nav-icon text-warning"></i><p>Audit Logs</p>
+              </a>
+            </li>
+            <?php } ?>
           </ul>
         </li>
         <?php } ?>

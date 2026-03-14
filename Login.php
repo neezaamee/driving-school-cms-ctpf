@@ -5,6 +5,10 @@ include('Functions.php');
 <?php
 
 if (isset($_POST['login'])) {
+  if (!isset($_POST['csrf']) || !verify_csrf_token($_POST['csrf'])) {
+      die("<script>alert('Security Error: Invalid or missing CSRF token.'); window.location.href='Login.php';</script>");
+  }
+
   $userName = CleanData($_POST['email']);
   $Password = CleanData($_POST['password']);
 
@@ -131,6 +135,7 @@ if (isset($_POST['login'])) {
       <article id="contact">
         <h2 class="major">Login</h2>
         <form method="post" action="Login.php">
+          <input type="hidden" name="csrf" value="<?php echo generate_csrf_token(); ?>">
           <div class="field half first">
             <label for="email">Username</label>
             <input type="text" name="email" id="name" autofocus />

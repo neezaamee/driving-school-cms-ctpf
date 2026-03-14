@@ -38,3 +38,5 @@ test.html
 ad.js
 db-backup-files/
 StudentImages/
+.env
+vendor/

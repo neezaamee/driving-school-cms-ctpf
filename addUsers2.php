@@ -59,11 +59,12 @@ if (!isAdmin()) {
                                 </div>
                                 <!-- /.card-header -->
                                 <!-- form start -->
-                                <form role="form" method="post" action="addUsers.php">
+                                <form role="form" method="post" action="addUsers2.php">
+                                    <input type="hidden" name="csrf" value="<?php echo generate_csrf_token(); ?>">
                                     <div class="card-body">
                                         <div class="form-group">
-                                            <label for="InputRole">School</label>
-                                            <select class="form-control" id="school" name="school" required>
+                                            <label for="InputSchool">School</label>
+                                            <select class="form-control" id="school" name="schoolid" required>
                                                 <?php
                                                     $Q2 = "SELECT * FROM schools";
                                                     $QR2 = mysqli_query($con,$Q2);
@@ -75,28 +76,28 @@ if (!isAdmin()) {
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label for="InputEmail">User Name</label>
-                                            <input type="text" class="form-control" id="InputEmail" placeholder="Enter User Name" name="email" autofocus>
+                                            <label for="InputUserName">User Name</label>
+                                            <input type="text" class="form-control" id="InputUserName" placeholder="Enter User Name" name="username" autofocus>
                                         </div>
                                         <div class="form-group">
-                                            <label for="InputFullName">First Name</label>
-                                            <input type="text" class="form-control" id="InputFullName" placeholder="Enter email" name="username">
+                                            <label for="InputFirstName">First Name</label>
+                                            <input type="text" class="form-control" id="InputFirstName" placeholder="Enter First Name" name="firstname">
                                         </div>
                                         <div class="form-group">
-                                            <label for="InputFullName">Last Name</label>
-                                            <input type="text" class="form-control" id="InputFullName" placeholder="Enter email" name="username">
+                                            <label for="InputLastName">Last Name</label>
+                                            <input type="text" class="form-control" id="InputLastName" placeholder="Enter Last Name" name="lastname">
                                         </div>
                                         <div class="form-group">
                                             <label for="InputPassword">Password</label>
                                             <input type="password" class="form-control" id="InputPassword" placeholder="Password" name="password">
                                         </div>
                                         <div class="form-group">
-                                            <label for="InputFullName">Rank</label>
-                                            <input type="text" class="form-control" id="InputFullName" placeholder="Enter email" name="username">
+                                            <label for="InputRank">Rank</label>
+                                            <input type="text" class="form-control" id="InputRank" placeholder="Enter Rank" name="rank">
                                         </div>
                                         <div class="form-group">
-                                            <label for="InputFullName">Belt</label>
-                                            <input type="text" class="form-control" id="InputFullName" placeholder="Enter email" name="username">
+                                            <label for="InputBelt">Belt</label>
+                                            <input type="text" class="form-control" id="InputBelt" placeholder="Enter Belt" name="belt">
                                         </div>
                                         <div class="form-group">
                                             <label for="InputRole">Role</label>
@@ -150,22 +151,28 @@ if (!isAdmin()) {
 <?php
                         if(isset($_POST['submit']))
                         {
+                            if (!isset($_POST['csrf']) || !verify_csrf_token($_POST['csrf'])) {
+                                die("<h3 class='text-center text-danger'>Security Error: Invalid or missing CSRF token.</h3>");
+                            }
                             
-                            $userName = CleanData($_POST['username']);	
-                            $userFirstName = CleanData($_POST['firstname']);
-                            $userLastName = CleanData($_POST['lastname']);
-                            $userPassword = CleanData($_POST['password']);
-                            $userRank = CleanData($_POST['rank']);
-                            $userBelt = CleanData($_POST['belt']);
-                            $userRole = CleanData($_POST['role']);
-                            $userSchoolID = CleanData($_POST['schoolid']);
+                            $userName = $_POST['username'];	
+                            $userFirstName = $_POST['firstname'];
+                            $userLastName = $_POST['lastname'];
+                            $userPassword = $_POST['password'];
+                            $userRank = $_POST['rank'];
+                            $userBelt = $_POST['belt'];
+                            $userRole = $_POST['role'];
+                            $userSchoolID = $_POST['schoolid'];
                         
                             $hashedPassword = password_hash($userPassword, PASSWORD_DEFAULT);
-                            $regComplaintQ = "INSERT INTO users(username,firstname,lastname,password,rank,belt,role,idschool) VALUES('$userName','$userFirstName','$userLastName','$hashedPassword','$userRank','$userBelt','$userRole','$userSchoolID')";
-                            $regComplaintQR = mysqli_query($con,$regComplaintQ);
-
-                                if($regComplaintQR)
-                                {       
+                            $regComplaintQ = "INSERT INTO users(username,firstname,lastname,password,rank,belt,role,idschool) VALUES(?,?,?,?,?,?,?,?)";
+                            $stmt = mysqli_prepare($con, $regComplaintQ);
+                            mysqli_stmt_bind_param($stmt, "sssssssi", $userName, $userFirstName, $userLastName, $hashedPassword, $userRank, $userBelt, $userRole, $userSchoolID);
+                            
+                            if(mysqli_stmt_execute($stmt))
+                            {       
+                                log_audit_event($_SESSION['loginUserID'] ?? 0, 'CREATE', 'users', mysqli_insert_id($con), "Created new user: $userName");
+                                mysqli_stmt_close($stmt);
                                     //echo "<center><h3>User Added <span style='color: green;'>Successfully</h3></center>";
                                     ?>
 

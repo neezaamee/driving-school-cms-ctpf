@@ -31,6 +31,10 @@ require_once('Functions.php');
                                 <div class="card-body">
                                 <?php
                                 if (isset($_POST['update_user'])) {
+                                    if (!isset($_POST['csrf']) || !verify_csrf_token($_POST['csrf'])) {
+                                        die("<div class='alert alert-danger'>Security Error: Invalid or missing CSRF token.</div>");
+                                    }
+                                    
                                     // Handle the Update logic (from editUserRSP.php)
                                     $userID = CleanData($_POST['userid']);	
                                     $userName = CleanData($_POST['username']);
@@ -46,6 +50,7 @@ require_once('Functions.php');
                                     mysqli_stmt_bind_param($stmt, "ssisi", $userName, $hashedPassword, $userType, $Status, $userID);
                                     
                                     if (mysqli_stmt_execute($stmt)) {
+                                        log_audit_event($_SESSION['loginUserID'] ?? 0, 'UPDATE', 'users', $userID, "Admin updated user: $userName");
                                         echo "<div class='alert alert-success'>User details updated successfully.</div>";
                                     } else {
                                         echo "<div class='alert alert-danger'>Error updating user: " . mysqli_error($con) . "</div>";
@@ -68,6 +73,7 @@ require_once('Functions.php');
                                         $Staff = staffByID($Row['idstaff']);
                                         ?>
                                         <form role="form" method="post" action="editUser.php">
+                                            <input type="hidden" name="csrf" value="<?php echo generate_csrf_token(); ?>">
                                             <input type="hidden" name="userid" value="<?php echo $userID; ?>">
                                             <div class="form-group">
                                                 <label>User Name</label>

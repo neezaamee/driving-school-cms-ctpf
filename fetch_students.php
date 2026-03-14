@@ -225,7 +225,7 @@ while ($r = mysqli_fetch_assoc($dataRes)) {
     $row[] = '<img src="'.$imgPath.'" width="60" class="img-thumbnail" alt="photo" onerror="this.src=\''.$defaultAvatar.'\'">';
 
     // action
-    $row[] = '<button class="btn btn-outline-danger btn-sm" data-href="deleteStudent.php?admissionID='.$r['id'].'" data-toggle="modal" data-target="#confirm-delete">Delete</button>';
+    $row[] = '<button class="btn btn-outline-danger btn-sm" data-href="deleteStudent.php?admissionID='.$r['id'].'&csrf='.generate_csrf_token().'" data-toggle="modal" data-target="#confirm-delete">Delete</button>';
 
     $data[] = $row;
 }

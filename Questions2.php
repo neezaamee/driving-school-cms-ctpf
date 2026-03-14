@@ -168,7 +168,7 @@ if ($_SESSION['loginRole'] == 'Sign Tester') {
                                                                                                         </td>
                                                                                                         <!--td> <a class="btn btn-block btn-outline-primary" href="editUser.php?userID=<?php/* echo $questionID;*/ ?>"> Edit</a> </td-->
                                                                                                         <td>
-                                                                                                            <button class="btn btn-block btn-outline-danger" data-href="deleteUser.php?userID=<?php echo $userID; ?>" data-toggle="modal" data-target="#confirm-delete"> Delete</button>
+                                                                                                            <button class="btn btn-block btn-outline-danger" data-href="deleteUser.php?userID=<?php echo $userID; ?>&csrf=<?php echo generate_csrf_token(); ?>" data-toggle="modal" data-target="#confirm-delete"> Delete</button>
                                                                                                         </td>
                                                                                                     </tr>
                                                                                                     <?php

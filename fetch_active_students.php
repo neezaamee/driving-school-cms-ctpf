@@ -150,7 +150,7 @@ while ($Row = mysqli_fetch_assoc($res)) {
         <a href="viewStudent.php?id='.$Row['idstudent'].'" class="btn btn-info btn-xs ml-1" title="View Profile">
           <i class="fas fa-eye"></i>
         </a>
-        <a href="#" class="btn btn-danger btn-xs ml-1" title="Delete" data-href="deleteStudent.php?studentID='.$Row['idstudent'].'" data-toggle="modal" data-target="#confirm-delete">
+        <a href="#" class="btn btn-danger btn-xs ml-1" title="Delete" data-href="deleteStudent.php?admissionID='.$Row['idstudent'].'&csrf='.generate_csrf_token().'" data-toggle="modal" data-target="#confirm-delete">
           <i class="fas fa-trash"></i>
         </a>
     </div>';

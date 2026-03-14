@@ -17,7 +17,12 @@ if (!isAdmin()){
 if(isset($_GET['userID']))
 {
 	$userID =  $_GET['userID'];
+    if (!isset($_GET['csrf']) || !verify_csrf_token($_GET['csrf'])) {
+        die("<h3 class='text-center text-danger'>Security Error: Invalid or missing CSRF token.</h3>");
+    }
+
     if(deleteUser($userID)){
+        log_audit_event($_SESSION['loginUserID'] ?? 0, 'DELETE', 'users', $userID, "Deleted user account");
         echo "<center><h3 class=\"text-center\">User Deleted Successfully</h3></center>";
 		?>
 <script>

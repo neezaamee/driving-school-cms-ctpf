@@ -16,14 +16,21 @@ if (!isAdmin()){
 <?php 
 if(isset($_GET['admissionID']))
 {
+    if (!isset($_GET['csrf']) || !verify_csrf_token($_GET['csrf'])) {
+        die("<h3 class='text-center text-danger'>Security Error: Invalid or missing CSRF token.</h3>");
+    }
+
 	$admissionID =  $_GET['admissionID'];
 	
-	$Q = "DELETE from admissions where id='$admissionID';";
-	$QR = mysqli_query($con,$Q);
+	$Q = "DELETE from admissions where id=?";
+    $stmt = mysqli_prepare($con, $Q);
+    mysqli_stmt_bind_param($stmt, "i", $admissionID);
+    $QR = mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
 	
 	if($QR)
 	{
-		
+		log_audit_event($_SESSION['loginUserID'] ?? 0, 'DELETE', 'admissions', $admissionID, "Admin deleted student admission record");
 		echo "<center><h3 class=\"text-center\">Student Deleted Successfully</h3></center>";
         
         
