@@ -13,7 +13,7 @@ define("DB_PASSWORD", '');
 define("DB_NAME", 'school_ctpfsd_new');
 define("DB_HOST", 'localhost');
 define("BACKUP_DIR", 'db-backup-files'); // Comment this line to use same script's directory ('.')
-define("BACKUP_FILE", 'db-backup-school_ctpfsd_new-12-18pm-08-09-2025.sql.gz'); // Script will autodetect if backup file is gzipped based on .gz extension
+define("BACKUP_FILE", 'db-backup-school_ctpfsd_new-02-59pm-10-04-2026.sql.gz'); // Script will autodetect if backup file is gzipped based on .gz extension
 define("CHARSET", 'utf8');
 define("DISABLE_FOREIGN_KEY_CHECKS", true); // Set to true if you are having foreign key constraint fails
 /**

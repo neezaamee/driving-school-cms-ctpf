@@ -40,3 +40,4 @@ db-backup-files/
 StudentImages/
 .env
 vendor/
+*.sql
